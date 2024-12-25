@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreTest M4&5</title>
+</head>
+<body>
+
+    <h2>Form Login</h2>
+    <form id="loginForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <button type="button" onclick="validateForm()">Login</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var message = document.getElementById("message");
+            var validUsername = "admin";
+            var validPassword = "admin123";
+
+            if (username === "" || password === "") {
+                message.innerHTML = "Username dan Password tidak boleh kosong.";
+                return;
+            }
+
+            if (username === validUsername && password === validPassword) {
+                message.innerHTML = "Berhasil!";
+            } else {
+                message.innerHTML = "Gagal! Username atau Password salah.";
+            }
+        }
+    </script>
+
+</body>
+</html>

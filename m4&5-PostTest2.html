@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Test 2</title>
+    <script>
+        const barang = {
+            B001: { nama: "Buku", harga: 5000 },
+            B002: { nama: "Penggaris", harga: 1500 },
+            B003: { nama: "Pulpen", harga: 2000 }
+        };
+
+        function updateDetailBarang() {
+            const kode = document.form1.kode.value;
+            const item = barang[kode];
+
+            if (item) {
+                document.form1.nama_barang.value = item.nama;
+                document.form1.harga.value = item.harga;
+                hitungTotal();
+            } else {
+                document.form1.nama_barang.value = '';
+                document.form1.harga.value = '';
+                resetPerhitungan();
+            }
+        }
+
+        function hitungTotal() {
+            const kode = document.form1.kode.value;
+            const jumlahBeli = parseInt(document.form1.jumlah_beli.value) || 0;
+            const item = barang[kode];
+
+            if (item) {
+                const jumlahBayar = item.harga * jumlahBeli;
+                const potonganPersen = hitungPotongan(jumlahBeli);
+                const potongan = (potonganPersen / 100) * jumlahBayar;
+                const totalBayar = jumlahBayar - potongan;
+
+                document.form1.potongan.value = potonganPersen; 
+                document.form1.jumlah_bayar.value = jumlahBayar;
+                document.form1.potongan_hasil.value = potongan;
+                document.form1.total_bayar.value = totalBayar;
+            } else {
+                resetPerhitungan();
+            }
+        }
+
+        function hitungPotongan(jumlahBeli) {
+            if (jumlahBeli >= 0 && jumlahBeli <= 10) {
+                return 5; 
+            } else if (jumlahBeli >= 11 && jumlahBeli <= 20) {
+                return 10; 
+            } else if (jumlahBeli > 21) {
+                return 15; 
+            }
+            return 0; 
+        }
+
+        function resetPerhitungan() {
+            document.form1.jumlah_bayar.value = '';
+            document.form1.potongan.value = '';
+            document.form1.potongan_hasil.value = '';
+            document.form1.total_bayar.value = '';
+            document.getElementById('struk').innerHTML = '';
+        }
+
+        function tampilkanStruk() {
+            const kode = document.form1.kode.value;
+            const item = barang[kode];
+            const jumlahBeli = parseInt(document.form1.jumlah_beli.value) || 0;
+            const potonganPersen = document.form1.potongan.value;
+            const jumlahBayar = document.form1.jumlah_bayar.value;
+            const potongan = document.form1.potongan_hasil.value;
+            const totalBayar = document.form1.total_bayar.value;
+
+            let struk = "<strong>NOTA PENJUALAN</strong><br>";
+            if (item) {
+                struk += `<br>Kode Barang: ${kode}<br>`;
+                struk += `Nama Barang: ${item.nama}<br>`;
+                struk += `Harga: Rp ${item.harga.toLocaleString()}<br>`;
+                struk += `Jumlah Beli: ${jumlahBeli}<br>`;
+                struk += '-----------------------------<br>';
+                struk += `Jumlah Bayar: Rp ${jumlahBayar.toLocaleString()}<br>`;
+                struk += `Potongan (${potonganPersen}%): Rp ${potongan.toLocaleString()}<br>`;
+                struk += '=============================<br>';
+                struk += `Total Bayar: Rp ${totalBayar.toLocaleString()}<br>`;
+            } else {
+                struk += "Silakan pilih barang terlebih dahulu.";
+            }
+            document.getElementById('struk').innerHTML = struk;
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <!-- Form Penjualan -->
+            <td>
+                <form name="form1">
+                    <table border="1">
+                        <tr>
+                            <th colspan="2">Data Penjualan Barang</th>
+                        </tr>
+                        <tr>
+                            <td>Kode</td>
+                            <td>
+                                <select name="kode" onchange="updateDetailBarang()">
+                                    <option selected="">--Pilih Salah Satu--</option>
+                                    <option value="B001">B001</option>
+                                    <option value="B002">B002</option>
+                                    <option value="B003">B003</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah Beli</td>
+                            <td><input type="text" name="jumlah_beli" oninput="hitungTotal()"></td>
+                        </tr>
+                        <tr>
+                            <td>Nama Barang</td>
+                            <td><input type="text" name="nama_barang" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Harga</td>
+                            <td><input type="text" name="harga" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah Bayar</td>
+                            <td><input type="text" name="jumlah_bayar" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Potongan <input type="text" name="potongan" style="width: 30px;" readonly>%</td>
+                            <td><input type="text" name="potongan_hasil" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Total Bayar</td>
+                            <td><input type="text" name="total_bayar" readonly></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <button type="button" onclick="tampilkanStruk()">Tampilkan</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+            <!-- Nota Penjualan -->
+            <td valign="top">
+                <div id="struk"></div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

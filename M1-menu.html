@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Menu</title>
+  <style>
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      display: inline-block;
+      position: relative;
+    }
+
+    nav li ul {
+      display: none;
+      position: absolute;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    nav li:hover ul {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Kamar</a></li>
+      <li>
+        <a href="#">Fasilitas</a>
+        <ul>
+          <li><a href="#">Petualangan Alam</a></li>
+          <li>
+            <a href="#">Kolam Renang</a>
+            <ul>
+              <li><a href="#">Regular</a></li>
+              <li><a href="#">Premium</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#">Pesan Sekarang</a></li>
+    </ul>
+  </nav>
+</body>
+</html>
